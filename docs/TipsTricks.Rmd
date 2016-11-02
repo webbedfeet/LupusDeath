@@ -1,0 +1,11 @@
+---
+title: Tips and Tricks
+date: "`r Sys.Date()`"
+output: docx
+---
+
+## Digitizing Plots
+
+1. Always store the x-axis data in years
+2. If the graph ends on a downward line, and does not end with y=0 (i.e., everybody is dead or missing), make the first point you capture just to the right of that last point, i.e. the same y-value, but a slightly larger x-value. The algorithm wants a bit of horizontal on the end to know that the rest of the people are censored after that point.
+3.

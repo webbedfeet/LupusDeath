@@ -1,0 +1,11 @@
+---
+title: Operational Notes
+date: "`r Sys.Date()`"
+output: docx
+---
+
+## Plots
+
+## Digitized Plots
+
+1. Zitnan (1991) has a graph, but it is not a KM graph. It only provides 5, 10 and 15 year survival for SLE patients
