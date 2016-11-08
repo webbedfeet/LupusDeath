@@ -35,4 +35,9 @@ vignettes/*.pdf
 Papers/
 *.docx
 
+data/
+docs/
+graphs/
+background/
+
 .Rproj.user
