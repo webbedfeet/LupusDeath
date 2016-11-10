@@ -27,12 +27,21 @@ study_info <- study_info %>%
          Time0 = tolower(Time0),  # Account for inception cohorts
          Lag = ifelse(Time0=='diagnosis', 0, dis.dur.yrs), # create Lag variable
          Lag = ifelse(is.na(Lag), median(Lag[Time0=='studyentry'], na.rm=T),Lag))
+study_info$KM.fig[study_info$Author=='Zitnan'] <- NA # Fig is not KM curve
 save(study_info, file='data/rda/study_info.rda', compress=T)
 
 summary_survival <- study_info %>%
-  select(armID, number, Lag, starts_with('surv')) %>%
+  select(armID, pubID, number, Lag, starts_with('surv')) %>%
   gather(year, surv_perc, starts_with('surv')) %>%
   mutate(year = as.numeric(str_replace(year, 'surv([0-9]+)yr', '\\1'))) %>%
-  dplyr::filter(!is.na(surv_perc))
+  dplyr::filter(!is.na(surv_perc)) %>%
+  arrange(armID)
 
+pubs_with_KM <- study_info %>%
+  dplyr::filter(KM.fig!='0', !is.na(KM.fig)) %>%
+  select(pubID) %>%
+  distinct()
+
+summary_survival <- summary_survival %>%
+  dplyr::filter(!(pubID %in% pubs_with_KM$pubID)) # only keep studies without KM
 save(summary_survival, file='data/rda/summary_survival.rda', compress=T)
