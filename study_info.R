@@ -4,7 +4,8 @@ source('lib/reload.R')
 reload()
 source('preamble.R')
 
-datadir <- AD_dirs_mac['popdata']
+#datadir <- AD_dirs_mac['popdata']
+datadir <- FH_dirs['popdata']
 study_info <- read_excel(file.path(datadir,'double-checked_adult_Abhijit.xlsx'))[1:187, 1:43]
 
 ## Fix names of variables
