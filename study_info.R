@@ -18,7 +18,9 @@ names(study_info) <- make.names(names(study_info)) %>% str_replace(., '\\.+$',''
 ## Cleaning data
 study_info <- study_info %>%
   mutate_if(is.character, str_trim) %>% # get rid of trailing spaces
-  mutate(armID = paste(Author, pubdate, Arm, sep='_'), # create unique ID per arm
+  mutate(Author = str_to_title(Author),
+         Author = str_extract(Author, '^\\w+'),
+         armID = paste(Author, pubdate, Arm, sep='_'), # create unique ID per arm
          armID = str_replace(armID,'_NA',''),
          armID = str_replace(armID,' ','_'),
          pubID = paste(Author, pubdate, sep='_'), # create publication ID
@@ -44,4 +46,18 @@ pubs_with_KM <- study_info %>%
 
 summary_survival <- summary_survival %>%
   dplyr::filter(!(pubID %in% pubs_with_KM$pubID)) # only keep studies without KM
+
 save(summary_survival, file='data/rda/summary_survival.rda', compress=T)
+
+
+load('data/rda/summary_survival.rda')
+load('data/rda/study_info.rda')
+
+with_survival <- union(summary_survival$pubID, pubs_with_KM$pubID)
+without_survival <- study_info %>%
+  dplyr::filter(pubID %in% setdiff(pubID, with_survival)) %>%
+  select(armID, pubID, number, deaths, f.up.months:max.f.up)
+
+save(without_survival, file='data/rda/without_survival.rda', compress=T)
+
+
