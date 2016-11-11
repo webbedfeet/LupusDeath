@@ -1,7 +1,7 @@
 # Functions for summary survival data -------------------------------------
 setwd("P:/FranWork/LupusDeath")
 fn.env <- new.env()
-source('P:/FranWork/LupusDeath/truncFunctions.R', local=fn.env)
+source('P:/FranWork/LupusDeath/lib/R/truncFunctions.R', local=fn.env)
 
 ## Determining the appropriate weibull parameters
 weib.param <- function(summData, Lag=0){
