@@ -46,7 +46,12 @@ pubs_with_KM <- study_info %>%
   distinct()
 
 summary_survival <- summary_survival %>%
-  dplyr::filter(!(pubID %in% pubs_with_KM$pubID)) # only keep studies without KM
+  dplyr::filter(!(pubID %in% pubs_with_KM$pubID)) %>% # only keep studies without KM
+  left_join(
+    study_info %>% select(armID, deaths, f.up.months)
+  ) %>% 
+  mutate(n.deaths = round(deaths * number / 100))
+
 
 save(summary_survival, file='data/rda/summary_survival.rda', compress=T)
 
