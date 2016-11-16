@@ -4,30 +4,30 @@ source('lib/reload.R')
 reload()
 source('preamble.R')
 
-#datadir <- AD_dirs_mac['popdata']
-datadir <- FH_dirs['popdata']
+datadir <- AD_dirs_mac['popdata']
+# datadir <- FH_dirs['popdata']
 study_info <- read_excel(file.path(datadir,'double-checked_adult_Abhijit.xlsx'))[1:187, 1:43]
+study_info$Author[study_info$Author=='Al Arfaj'] <- 'Al-Arfaj'
 
 ## Fix names of variables
 names(study_info) <- str_trim(names(study_info))
 study_info <- study_info %>%
   rename(surv15yr = `surv15 y`,
          Time0 = `Time 0`)
-names(study_info) <- make.names(names(study_info)) %>% str_replace(., '\\.+$','') %>%
-  str_replace_all(., '\\.+','.')
+names(study_info) <- make.names(names(study_info)) %>% 
+  str_replace('\\.+$','') %>%
+  str_replace_all( '\\.+','.')
 
 ## Cleaning data
 study_info <- study_info %>%
   mutate_if(is.character, str_trim) %>% # get rid of trailing spaces
-  mutate(Author = str_to_title(Author),
-         Author = str_extract(Author, '^\\w+'),
-         armID = paste(Author, pubdate, Arm, sep='_'), # create unique ID per arm
-         armID = str_replace(armID,'_NA',''),
-         armID = str_replace(armID,' ','_'),
+  mutate(Author = Author %>% str_trim() %>% str_to_title() %>% 
+           str_extract('^[\\w-]+'),
+         armID = paste(Author, pubdate, Arm, sep='_') %>% 
+           str_replace('_NA','') %>% str_replace(' ','_'), # create unique ID per arm
          pubID = paste(Author, pubdate, sep='_'), # create publication ID
          dis.dur.yrs = as.numeric(str_replace(dis.dur.yrs, '<', '')),
-         Time0 = ifelse(inception==1,'diagnosis', Time0),
-         Time0 = tolower(Time0),  # Account for inception cohorts
+         Time0 = ifelse(inception==1,'diagnosis', Time0) %>% tolower(), # Account for inception cohorts
          Lag = ifelse(Time0=='diagnosis', 0, dis.dur.yrs), # create Lag variable
          Lag = ifelse(is.na(Lag), median(Lag[Time0=='studyentry'], na.rm=T),Lag))
 study_info$KM.fig[study_info$Author=='Zitnan'] <- NA # Fig is not KM curve
