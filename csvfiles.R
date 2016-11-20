@@ -39,8 +39,5 @@ fig_metadata <- fig_metadata %>%
 fig_metadata <- fig_metadata %>% 
   mutate(male.only = ifelse(ids %in% study_info$pubID[study_info$male.only=='Y'],'Yes','No'))
 
-## Which studies might represent full studies rather than stratified studies
-fig_metadata <- fig_metadata %>% 
-  mutate(fullstudy = ifelse(ids %in% study_info$pubID[study_info$fullstudy.arm=='Y'], 'Yes','No'))
 
 save(fig_metadata, file='data/rda/fig_metadata.rda')
