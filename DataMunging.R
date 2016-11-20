@@ -83,13 +83,15 @@ bl <- study_info %>% select(pubID,Country, yr_of_study) %>%
                           'yr_of_study'='Year')) %>% 
   mutate(Status = ifelse(is.na(Status) & yr_of_study < 1987 & Income >=6000,
                          'Developed','Developing'),
-         Status = ifelse(Country=='United States','Developed',Status))
+         Status = ifelse(Country=='United States','Developed',Status),
+         Status = ifelse(Country=='Latin America','Developing',Status),
+         Status = ifelse(Country=='Germany', 'Developed',Status),
+         Status = ifelse(Country=='Europe','Developed',Status),
+         Status = ifelse(Country=='International','Developing',Status),
+         Status = ifelse(Country=='Poland', 'Developing',Status),
+         Status = ifelse(Country=='Antilles', 'Developing', Status),
+         Status = ifelse(Country=='Russian Federation', 'Developing', Status),
+         Status = ifelse(Country=='Usa/Spain','Developed', Status),
+         Status = ifelse(Country=='New Zealand', 'Developed', Status))
 
-
-
-incomes <- incomes[-(1:32),] # Remove continents
-incomes$Country.Name[incomes$Country.Name=='United States'] <- "Usa"
-incomes$Country.Name[incomes$Country.Name=='United Kingdom'] <- "Uk"
-incomes$Country.Name[incomes$Country.Name=='Korea, Rep.'] <- "South Korea"
-incomes$Country.Name[incomes$Country.Name=='Iran, Islamic Rep.'] <- "Iran"
-incomes$Country.Name[incomes$Country.Name=='Egypt, Arab Rep.'] <- "Egypt"
+study_info <- study_info %>% mutate(Status = bl$Status)
