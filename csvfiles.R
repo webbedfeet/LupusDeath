@@ -31,9 +31,9 @@ fig_metadata <- tibble(filename=csvfiles, ids = ids_from_filenames, figs = figs_
 bl <- fig_metadata %>% count(ids, figs) %>% mutate(needs.pooling=ifelse(n==1,'No','Yes'))
 fig_metadata <- fig_metadata %>% left_join(select(bl, -n))
 
-## Do we have continuous figures
+## ID true KM files
 fig_metadata <- fig_metadata %>% 
-  mutate(cts = ifelse(str_detect(filename, 'cts'),'Yes','No'))
+  mutate(is.KM = ifelse(filename %in% csv_km, 'Yes', 'No'))
 
 ## Which are male-only studies
 fig_metadata <- fig_metadata %>% 
@@ -42,3 +42,5 @@ fig_metadata <- fig_metadata %>%
 ## Which studies might represent full studies rather than stratified studies
 fig_metadata <- fig_metadata %>% 
   mutate(fullstudy = ifelse(ids %in% study_info$pubID[study_info$fullstudy.arm=='Y'], 'Yes','No'))
+
+save(fig_metadata, file='data/rda/fig_metadata.rda')
