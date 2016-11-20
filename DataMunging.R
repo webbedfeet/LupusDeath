@@ -1,7 +1,11 @@
 # This file will contain updates to various data sets that are resulting
 # from data cleaning exercises
 
+source('study_info.R')
 load('data/rda/study_info.rda')
+
+study_info <- arrange(study_info, pubID) %>% 
+  mutate(KM.fig = ifelse(is.na(KM.fig),'0',KM.fig))
 
 ## Estes' figures provide only summary survival data and not KM curves
 study_info$KM.fig[study_info$Author=='Estes'] <- '0'
