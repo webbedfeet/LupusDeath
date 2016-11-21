@@ -45,4 +45,4 @@ for(u in KM_full$filename){
   KM_digitized_clean[[u]] <- KMclean(KM_digitized[[u]], KM_full$N[KM_full$filename==u])
 }
 
-save(KM_digitized_clean, file='data/rda/KM_digitized.rda', compress=T)
+save(KM_full, KM_digitized_clean, file='data/rda/KM_digitized.rda', compress=T)
