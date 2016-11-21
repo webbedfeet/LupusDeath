@@ -34,12 +34,6 @@ bl <- study_info %>%
                                       pmax(f.up.months,as.numeric(max.f.up), na.rm=T)/12/2))
   )
 
-fillin <- function(x){
-  if(!all(is.na(x)) & length(unique(x[!is.na(x)]))==1){
-    x = rep(unique(x[!is.na(x)]),length(x))
-  }
-  return(x)
-}
 study_info <- study_info %>% left_join(bl %>% select(armID,yr_of_study)) %>% 
   nest(-pubID) %>% 
   mutate(data = map(data, ~mutate(., yr_of_study=fillin(yr_of_study)))) %>% 
@@ -101,3 +95,30 @@ bl <- study_info %>% select(pubID,Country, yr_of_study) %>%
 study_info <- study_info %>% mutate(Status = bl$Status)
 
 save(study_info, file='data/rda/study_info.rda', compress=T)
+
+
+# Windowing for moving average --------------------------------------------
+
+study_duration <- study_info %>% mutate(start_date=yr_of_study,
+                            end_date = pmax(end.fup, end.enrollment, pubdate-1, na.rm=T)) %>% 
+  select(pubID, start_date, end_date) %>% 
+  nest(-pubID) %>% 
+  mutate(final = map(data, ~mutate(., 
+                                   start_date = min(start_date, na.rm=T),
+                                   end_date = max(end_date, na.rm=T)))) %>% 
+  select(-data) %>% 
+  unnest() %>% 
+  distinct() %>% 
+  filter(start_date < Inf)
+
+time_range <- c(min(study_duration$start_date, na.rm=T), max(study_duration$end_date))
+x <- seq(time_range[1], time_range[2]-4)
+Windows <- cbind(x,x+1,x+2,x+3,x+4) %>% unname()
+
+study_years <- plyr::dlply(study_duration, ~pubID, 
+                           function(d) seq(d$start_date, d$end_date))
+
+membership <- plyr::ldply(study_years, 
+                     function(x) apply(Windows,1, 
+                                       function(y) length(intersect(x,y))>0))
+names(membership) <- str_replace(names(membership),'V','Window')
