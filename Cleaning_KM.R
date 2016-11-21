@@ -7,6 +7,7 @@ reload()
 datadir <- AD_local_mac['data']
 
 load('data/rda/fig_metadata.rda')
+load('data/rda/study_info.rda')
 KM_full <- fig_metadata %>% filter(male.only=='No', is.KM=='Yes')
 Ns <- study_info$number; names(Ns) <- study_info$pubID
 KM_full$N <- Ns[KM_full$ids]
@@ -30,3 +31,18 @@ KM_full$N[is.na(KM_full$N)] <- c(
   76, 4, # Stoll
   NA,NA # Voss
 )
+
+# Read in the digitized data in a list
+
+KM_digitized <- list()
+KM_digitized_clean <- list()
+
+for(u in KM_full$filename){
+  print(u)
+  KM_digitized[[u]] <- read.csv(file.path(datadir,u), header=F)
+  names(KM_digitized[[u]]) <- c('Time','Prob')
+  if(is.na(KM_full$N[KM_full$filename==u])) next
+  KM_digitized_clean[[u]] <- KMclean(KM_digitized[[u]], KM_full$N[KM_full$filename==u])
+}
+
+save(KM_digitized_clean, file='data/rda/KM_digitized.rda', compress=T)
