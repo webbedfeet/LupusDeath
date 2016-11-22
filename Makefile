@@ -1,14 +1,18 @@
 
-data: data/rda/study_info.rda data/rda/fig_metadata.rda
-data/rda/study_info.rda: study_info.R DataMunging.R
-		R CMD BATCH study_info.R
-		R CMD BATCH DataMunging.R
+data: study_info fig_metadata KM_digitized KM2IPD
 
-data/rda/fig_metadata.rda: csvfiles.R
-		R CMD BATCH $<
-		
-data/rda/KM_digitized.rda: Cleaning_KM.R
-		R CMD BATCH $<
-		
+study_info: study_info.R DataMunging.R
+	R CMD BATCH study_info.R
+	R CMD BATCH DataMunging.R
+
+fig_metadata: csvfiles.R
+	R CMD BATCH $<
+
+KM_digitized: Cleaning_KM.R
+	R CMD BATCH $<
+
+KM2IPD: KM2IPD.R
+	R CMD BATCH KM2IPD.R
+
 clean:
-		rm *.Rout 
+		rm *.Rout
