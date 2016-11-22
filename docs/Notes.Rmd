@@ -4,6 +4,9 @@ date: "`r Sys.Date()`"
 output: docx
 ---
 
+## From Maria
+3 studies including males only: Sthoeger 1987. Folomeev 1990, Kaufman 1989, Chang 1995.
+Also, Grigor should be excluded  (same cohort as Hohmeister).
 ## Plots
 
 ## Digitized Plots
