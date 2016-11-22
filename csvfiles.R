@@ -28,7 +28,7 @@ figs_from_filenames <- csvfiles %>%
 fig_metadata <- tibble(filename=csvfiles, ids = ids_from_filenames, figs = figs_from_filenames)
 
 ## Do we need to pool data
-bl <- fig_metadata %>% count(ids, figs) %>% mutate(needs.pooling=ifelse(n==1,'No','Yes'))
+bl <- fig_metadata %>% dplyr::count(ids, figs) %>% mutate(needs.pooling=ifelse(n==1,'No','Yes'))
 fig_metadata <- fig_metadata %>% left_join(select(bl, -n))
 
 ## ID true KM files
