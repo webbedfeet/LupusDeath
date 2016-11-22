@@ -29,7 +29,7 @@ KM_full$N[is.na(KM_full$N)] <- c(
   43, 116, # Schmid
   1141, 339, # Shinjo
   76, 4, # Stoll
-  NA,NA # Voss
+  142,73 # Voss
 )
 
 # Read in the digitized data in a list
