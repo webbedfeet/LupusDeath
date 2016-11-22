@@ -15,4 +15,4 @@ KM2IPD: KM2IPD.R
 	R CMD BATCH KM2IPD.R
 
 clean:
-		rm *.Rout
+	-rm  -f *.Rout *~
