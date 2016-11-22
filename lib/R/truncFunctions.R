@@ -1,4 +1,4 @@
-#2# Functions for truncated distributions
+2# Functions for truncated distributions
 # From Nadarajah & Kotz (2006). R Programs for Computing Truncated Distributions. Journal of Statistical Software, 16: Code Snippet 2
 
 dtrunc <- function(x, spec, a = -Inf, b = Inf, ...)

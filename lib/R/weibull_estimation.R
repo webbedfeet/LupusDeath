@@ -1,10 +1,10 @@
-# Functions for summary survival data -------------------------------------
-fn.env <- new.env()
-source('"P:/FranWork/LupusDeath/truncFunctions.R', local=fn.env)
-
 ## Determining the appropriate weibull parameters
-weib.param <- function(summData, Lag=0){
-  yr <- summData$Year; p <- summData$Prob
+weibull_estimation <- function(summData){
+  yr <- summData$year
+  p <- summData$surv_perc
+  Lag <- unique(summData$Lag)
+  
+  if(all(p > 1)) p <- p/100 # convert to probabilities
   if(length(yr)==1){
     yr <- c(0.1,yr); p <- c(0.999,p)
   }
