@@ -34,6 +34,7 @@ datForJags <- function(ipd, follow=NULL, info=study_info){
   # dat <- c(dat, as.list(dat.jags))
   dat <- as.list(dat.jags)
   dat$N1 <- nrow(dat.jags)
+  if(is.null(follow)) dat$N2 <- 0
   for(i in 1:length(dat)){
     if(is.factor(dat[[i]])) dat[[i]] <- as.numeric(dat[[i]])
   }
