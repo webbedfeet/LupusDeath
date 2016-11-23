@@ -26,13 +26,8 @@ study_info <- study_info %>%
 ## Compute study year as middle of enrollment
 
 bl <- study_info %>% 
-  mutate(yr_of_study = round((start.enrollment + pmin(end.enrollment, end.fup, na.rm=T))/2),
-         yr_of_study = ifelse(!is.na(yr_of_study), yr_of_study,
-                              round(start.enrollment+(pubdate-1-start.enrollment)/2)),
-         yr_of_study = ifelse(!is.na(yr_of_study), yr_of_study,
-                              round(pmin(end.fup,pubdate-1, na.rm=T)-
-                                      pmax(f.up.months,as.numeric(max.f.up), na.rm=T)/12/2))
-  )
+  mutate(max.f.up =as.numeric(max.f.up)) %>% 
+  mutate(yr_of_study = startYear(., prop=0.5))
 
 study_info <- study_info %>% left_join(bl %>% select(armID,yr_of_study)) %>% 
   nest(-pubID) %>% 
