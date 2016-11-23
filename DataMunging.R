@@ -87,7 +87,7 @@ bl <- study_info %>% select(pubID,Country, yr_of_study) %>%
          Status = ifelse(Country=='Usa/Spain','Developed', Status),
          Status = ifelse(Country=='New Zealand', 'Developed', Status))
 
-study_info <- study_info %>% mutate(Status = bl$Status)
+study_info <- study_info %>% mutate(Developed = bl$Status)
 
 save(study_info, file='data/rda/study_info.rda', compress=T)
 
