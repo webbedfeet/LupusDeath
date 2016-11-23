@@ -16,17 +16,4 @@ for(u in KM_full$ids){
   KM2IPD[[u]] <- pool.ipd(lst)
   KM2IPD[[u]] <- lapply(KM2IPD[[u]], unname)
 }
-
-## Add lags
-# load('data/rda/study_info.rda')
-# lags <- study_info %>% select(pubID, Lag) %>%
-#   filter(pubID %in% names(KM2IPD)) %>%
-#   nest(-pubID) %>%
-#   mutate(data = map(data, ~mutate(., Lag = min(Lag)))) %>%
-#       # If a pub has multiple lags, take minimum
-#   unnest() %>%
-#   distinct()
-# for(u in names(KM2IPD)){
-#   KM2IPD[[u]] <- lapply(KM2IPD[[u]],'+', lags$Lag[lags$pubID==u])
-# }
 save(KM2IPD, file='data/rda/KM2IPD.rda', compress=T)
