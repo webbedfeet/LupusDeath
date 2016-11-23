@@ -95,7 +95,7 @@ save(study_info, file='data/rda/study_info.rda', compress=T)
 # Windowing for moving average --------------------------------------------
 
 study_duration <- study_info %>% mutate(start_date=yr_of_study,
-                            end_date = pmax(end.fup, end.enrollment, pubdate-1, na.rm=T)) %>% 
+                            end_date = endYear(.)) %>% 
   select(pubID, start_date, end_date) %>% 
   nest(-pubID) %>% 
   mutate(final = map(data, ~mutate(., 
@@ -107,8 +107,11 @@ study_duration <- study_info %>% mutate(start_date=yr_of_study,
   filter(start_date < Inf)
 
 time_range <- c(min(study_duration$start_date, na.rm=T), max(study_duration$end_date))
-x <- seq(time_range[1], time_range[2]-4)
-Windows <- cbind(x,x+1,x+2,x+3,x+4) %>% unname()
+window_length <- 5
+x <- seq(time_range[1], time_range[2]-window_length+1)
+Windows <- do.call(cbind, 
+                   lapply(1:window_length-1, '+', x)) %>% 
+  unname()
 
 study_years <- plyr::dlply(study_duration, ~pubID, 
                            function(d) seq(d$start_date, d$end_date))
@@ -117,3 +120,5 @@ membership <- plyr::ldply(study_years,
                      function(x) apply(Windows,1, 
                                        function(y) length(intersect(x,y))>0))
 names(membership) <- str_replace(names(membership),'V','Window')
+
+save(membership, file = 'data/rda/window_membership.rda', compress=T)

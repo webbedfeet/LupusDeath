@@ -18,6 +18,10 @@ KM_digitized: Cleaning_KM.R
 KM2IPD: KM2IPD.R
 	R CMD BATCH KM2IPD.R
 
+## membership : Generate which study belongs in which moving avg window
+membership: DataMunging.R
+	R CMD BATCH DataMunging.R
+
 .PHONY : clean
 clean:
 	-rm  -f *.Rout *~
