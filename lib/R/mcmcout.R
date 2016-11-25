@@ -16,7 +16,7 @@ mcmcout <- function(resdir, basedir=file.path('data','mcmc')){
   for(i in 1:3) outcts[[i]] <- vector('list',2)
   for(i in 1:3){
     for(j in 1:2){
-      outcts[[i]][[j]] <- matrix(NA, ncol=3, nrow=48)
+      outcts[[i]][[j]] <- matrix(NA, ncol=3, nrow=62)
     }
   }
   names(outcts) <- c('pr5','pr10','pr15')
