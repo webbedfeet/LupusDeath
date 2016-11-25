@@ -27,6 +27,10 @@ membership: DataMunging.R
 
 data: study_info update_study_info fig_metadata KM_digitized KM2IPD
 
+adult_data: MovingAverage.R
+	R CMD BATCH MovingAverage.R
+	cd data/mcmc/adult; python template.py; cd ../../..
+
 .PHONY : clean
 clean:
 	-rm  -f *.Rout *~
