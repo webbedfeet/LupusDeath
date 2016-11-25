@@ -1,9 +1,12 @@
 
-data: study_info fig_metadata KM_digitized KM2IPD
+DATADIR=/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/Abhijit\ SLE\ Mortality\ Library
+
 
 ## study_info		: Create data from study characteristics
-study_info: study_info.R DataMunging.R
+study_info: $(DATADIR)/*.csv study_info.R
 	R CMD BATCH study_info.R
+
+update_study_info: study_info.R
 	R CMD BATCH DataMunging.R
 
 ## fig_metadata 		: Generate metadata for digitized curves
@@ -21,6 +24,8 @@ KM2IPD: KM2IPD.R data/rda/KM_digitized.rda
 ## membership : Generate which study belongs in which moving avg window
 membership: DataMunging.R
 	R CMD BATCH DataMunging.R
+
+data: study_info fig_metadata KM_digitized KM2IPD
 
 .PHONY : clean
 clean:
