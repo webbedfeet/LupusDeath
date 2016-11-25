@@ -5,9 +5,9 @@ source('preamble.R')
 
 #require(rjags)
 
-#datadir <- AD_local_mac['popdata']
-datadir <- FH_dirs['popdata']
-study_infoPed<- read_excel(file.path(datadir,'peds_mw LL_mw.xlsx'))[1:61, 1:46]
+datadir <- file.path(AD_local_mac['popdata'],'pediatric')
+#datadir <- FH_dirs['popdata']
+study_infoPed<- read_excel(file.path(datadir,'peds_mw LL_mw.xlsx'))[2:61, 1:46]
 #study_infoPedPed$Author[study_infoPedPed$Author=='Al Arfaj'] <- 'Al-Arfaj'
 study_infoPed$Author[study_infoPed$Author=='Ramirez Gomez'] <- 'Ramirez_Gomez' 
 study_infoPed$Author[study_infoPed$Author=='Hui-Yeun'] <- 'Hui_Yeun'
