@@ -7,8 +7,22 @@ load('data/rda/study_info.rda')
 study_info <- arrange(study_info, pubID) %>% 
   mutate(KM.fig = ifelse(is.na(KM.fig),'0',KM.fig))
 
-## Estes' figures provide only summary survival data and not KM curves
-study_info$KM.fig[study_info$Author=='Estes'] <- '0'
+# Data cleaning -----------------------------------------------------------
+
+study_info$max.f.up <- as.numeric(study_info$max.f.up)
+
+## Update Estes' information to start at 1961 and end at 1969
+study_info[study_info$pubID=='Estes_1971',]$start.enrollment=1961
+study_info[study_info$pubID=='Estes_1971',]$end.enrollment=1969
+
+## Update Joo information
+study_info[study_info$pubID=='Joo_2015',]$end.fup = 2007
+study_info[study_info$pubID=='Joo_2015',]$end.enrollment = NA
+
+
+
+
+# New variables -----------------------------------------------------------
 
 ## Identify male only studies, which will be kept separate
 male_only <- study_info %>% filter(female==0) %>% 
@@ -25,9 +39,8 @@ study_info <- study_info %>%
 
 ## Compute study year as middle of enrollment
 
-bl <- study_info %>% 
-  mutate(max.f.up =as.numeric(max.f.up)) %>% 
-  mutate(yr_of_study = startYear(., prop=0.5))
+bl <- study_info %>%
+  mutate(yr_of_study = startYear(.))
 
 study_info <- study_info %>% left_join(bl %>% select(armID,yr_of_study)) %>% 
   nest(-pubID) %>% 
@@ -94,7 +107,7 @@ save(study_info, file='data/rda/study_info.rda', compress=T)
 
 # Windowing for moving average --------------------------------------------
 
-study_duration <- study_info %>% mutate(start_date=yr_of_study,
+study_duration <- study_info %>% mutate(start_date=startYear(.),
                             end_date = endYear(.)) %>% 
   select(pubID, start_date, end_date) %>% 
   nest(-pubID) %>% 
