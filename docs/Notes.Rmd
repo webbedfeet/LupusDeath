@@ -11,4 +11,8 @@ Also, Grigor should be excluded  (same cohort as Hohmeister).
 
 ## Digitized Plots
 
-1. Zitnan (1991) has a graph, but it is not a KM graph. It only provides 5, 10 and 15 year survival for SLE patients
+Several plots are really survival estimates and not KM plots
+
+## Study duration
+
+We're taking Estes to be 1961-1969 based on very sketchy information in the paper.
