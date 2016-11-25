@@ -114,8 +114,8 @@ save(study_info, file='data/rda/study_info.rda', compress=T)
 
 # Windowing for moving average --------------------------------------------
 
-study_duration <- study_info %>% mutate(start_date=startYear(.),
-                            end_date = endYear(.)) %>% 
+study_duration <- study_info %>% mutate(start_date=yr_of_study,
+                            end_date = end_of_study) %>% 
   select(pubID, start_date, end_date) %>% 
   nest(-pubID) %>% 
   mutate(final = map(data, ~mutate(., 
@@ -123,8 +123,7 @@ study_duration <- study_info %>% mutate(start_date=startYear(.),
                                    end_date = max(end_date, na.rm=T)))) %>% 
   select(-data) %>% 
   unnest() %>% 
-  distinct() %>% 
-  filter(start_date < Inf)
+  distinct()
 
 time_range <- c(min(study_duration$start_date, na.rm=T), max(study_duration$end_date))
 window_length <- 5
