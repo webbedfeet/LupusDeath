@@ -61,6 +61,9 @@ td[i] ~ dweib(nu[geog1[i]], lambda[geog1[i]])T(trunc[i],);
 "
 writeLines(fullmodelcts2.bugs, con='fullmodelcts2.bug')
 
+## Which are male-only studies
+fig_metadata <- fig_metadata %>%
+  mutate(male.only = ifelse(ids %in% study_info$pubID[study_info$male.only=='Y'],'Yes','No'))
 
 ipds <- KM2IPD[setdiff(names(KM2IPD), fig_metadata$ids[fig_metadata$male.only=='Yes'])]
 createDatasets(membership, ipds, outdir='adult')
