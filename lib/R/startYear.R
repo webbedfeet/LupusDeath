@@ -10,7 +10,7 @@ startYear <- function(dat=study_info, prop=0.5){
   ind <- which(is.na(yr_of_study))
   yr_of_study[ind] <- ifelse(is.na(timedat$start.enrollment[ind]),NA, round(timedat$start.enrollment[ind]+(dat$pubdate[ind]-1-timedat$start.enrollment[ind])*prop)) #counting from start.enrollment
   ind <- which(is.na(yr_of_study))
-  yr_of_study[ind] <- round(pmin(dat$end.fup[ind], dat$pubdate[ind]-1, na.rm=T) - pmax(dat$f.up.months[ind], dat$max.f.up[ind], na.rm=T)/12*(1-prop)) #counting from end
+  yr_of_study[ind] <- round(pmin(dat$end.fup[ind], dat$pubdate[ind]-1, na.rm=T) - pmax(dat$f.up.months[ind], as.numeric(dat$max.f.up[ind]), na.rm=T)/12*(1-prop)) #counting from end
   ind <- is.na(yr_of_study)
   # yr_of_study[ind] <- rep(yr_of_study[dat$study==118 & !ind], sum(ind))
   return(yr_of_study)
