@@ -13,7 +13,7 @@
 #' @alias
 #' @examples
 endYear <- function(dat=study_info, maxduration=NULL,...){
-  end <- pmax(dat$end.fup, dat$end.enrollment, dat$pubdate-1, na.rm=T)
+  end <- pmin(pmax(dat$end.fup, dat$end.enrollment, na.rm=T), dat$pubdate-1, na.rm=T)
   if(!is.null(maxduration)){
     start <- startYear(dat, ...)
     end <- pmin(end, start+maxduration)
