@@ -37,17 +37,24 @@ bl <- study_info %>% filter(armID==pubID) %>% select(armID)
 study_info <- study_info %>% 
   mutate(fullstudy.arm = factor(ifelse(armID %in% bl$armID, 'Y','N')))
 
-## Compute study year as middle of enrollment
+
+# Compute different temporal quantities for the studies -------------------
 
 bl <- study_info %>%
-  mutate(yr_of_study = startYear(.))
+  mutate(start_of_study = beginYear(.),
+         yr_of_study = startYear(.),
+         end_of_study = endYear(.),
+         end_of_study_10 = endYear(., maxduration=10))
 
-study_info <- study_info %>% left_join(bl %>% select(armID,yr_of_study)) %>% 
+study_info <- study_info %>% 
+  left_join(bl %>% select(armID, start_of_study, yr_of_study, end_of_study, end_of_study_10)) %>% 
   nest(-pubID) %>% 
-  mutate(data = map(data, ~mutate(., yr_of_study=fillin(yr_of_study)))) %>% 
+  mutate(data = lapply(data, function(d){
+    mutate_each(d, funs(fillin(.)), start_of_study, yr_of_study, end_of_study, 
+                end_of_study_10)})) %>% 
   unnest()
 
-## Identify developed status
+# Identify developed status -----------------------------------------------
 ## Country is "Developed" if it's World Bank GNI per capita classification is 
 ## High Income
 
