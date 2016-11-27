@@ -30,6 +30,8 @@ study_info <- study_info %>%
          pubID = paste(Author, pubdate, sep='_'), # create publication ID
          pubID = ifelse(str_detect(Arm,'^[abc]$'), # separate out time-separated arms
                         paste0(pubID,Arm), pubID),
+         armID = ifelse(str_detect(Arm,'^[abc]$'),
+                        pubID, armID),
          dis.dur.yrs = as.numeric(str_replace(dis.dur.yrs, '<', '')),
          Time0 = ifelse(inception==1,'diagnosis', Time0) %>% tolower()) %>%  # Account for inception cohorts
   nest(-pubID) %>% 
