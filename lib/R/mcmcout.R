@@ -16,12 +16,12 @@ mcmcout <- function(resdir, basedir=file.path('data','mcmc')){
   for(i in 1:3) outcts[[i]] <- vector('list',2)
   for(i in 1:3){
     for(j in 1:2){
-      outcts[[i]][[j]] <- matrix(NA, ncol=3, nrow=62)
+      outcts[[i]][[j]] <- matrix(NA, ncol=3, nrow=61)
     }
   }
   names(outcts) <- c('pr5','pr10','pr15')
   
-  for(i in 1:62){
+  for(i in 1:61){
     print(i)
     datfile = file.path(basedir,resdir,paste('Rfile',i,'.rda',sep=''))
     if(!file.exists(datfile)) next
