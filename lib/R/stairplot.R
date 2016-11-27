@@ -11,7 +11,7 @@
 #' \item{'Author'}{Author}
 #' \item{"pubdate"}{Publication date}
 #' \item{"start_of_study"}{The start time of the study (i.e. beginning of enrollment)}
-#' \item{"end_of_study"}{The end time of the study (i.e. max of end of enrollment, end of followup or a year before publication)}
+#' \item{"end_of_study"}{The end time of the study} (i.e. the earlier of max(end of enrollment, end of followup) and pubdate -1)
 #' \item{"yr_of_study"}{The analytic start time }
 #' \item{"yr_of_study_end"}{The analytic end time}
 #' \item{"Developed"}{Developed or developing country}
@@ -20,7 +20,7 @@
 #' }
 stairdata <- function(dat=basedata){
   dat <- dat %>%
-    select(study,pubID, armID,Author, pubdate, start_of_study, yr_of_study, end_of_study, yr_of_study_end, Developed, Design, number) %>%
+    select(pubID, armID,Author, pubdate, start_of_study, yr_of_study, end_of_study, yr_of_study_end, Developed, Design, number) %>%
     arrange(start_of_study) %>% 
     distinct()
   return(dat)
