@@ -5,8 +5,14 @@ output: docx
 ---
 
 ## From Maria
-3 studies including males only: Sthoeger 1987. Folomeev 1990, Kaufman 1989, Chang 1995.
+4 studies including males only: Sthoeger 1987. Folomeev 1990, Kaufman 1989, Chang 1995.
 Also, Grigor should be excluded  (same cohort as Hohmeister).
+
+## KM's
+
+Voss is not a KM since it's x-axis is age, not years
+
+Several studies have arms in different epochs: Urman, Uramoto, Rodriguez, and Funauchi
 ## Plots
 
 ## Digitized Plots
