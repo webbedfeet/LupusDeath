@@ -19,8 +19,10 @@ study_info[study_info$pubID=='Estes_1971',]$end.enrollment=1969
 study_info[study_info$pubID=='Joo_2015',]$end.fup = 2007
 study_info[study_info$pubID=='Joo_2015',]$end.enrollment = NA
 
+## Make Siegel_1969_female the overall study record
+study_info$armID[study_info$armID=='Siegel_1969_female'] <- 'Siegel_1969'
 
-## Fix the information in the Design filed
+## Fix the information in the Design field
 study_info <- study_info %>% 
   mutate(Design = str_to_title(Design),
          Design = ifelse(str_count(Design, pattern='[[:alpha:]]+')==2, Design,
