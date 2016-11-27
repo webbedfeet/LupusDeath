@@ -14,11 +14,11 @@ pltResults <- function(bl){
   require(ggplot2)
   levels(bl$Dev) <- paste(levels(bl$Dev),'countries')
   levels(bl$Year) <- gsub('s','',levels(bl$Year))
-  p=ggplot(bl,aes(x=yr,y=1-Med, group=Year,color=Year))+geom_line(size=1)+
-    geom_line(aes(x=yr, y=1-LB),linetype=2)+geom_line(aes(x=yr, y=1-UB),linetype=2)+
-    facet_wrap(~Dev, ncol=1)+ylim(0,0.5)+scale_color_hue(l=40)+
-    labs(x='Year',y='Probability of death',color='')+
-    theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.8,0.9),
+  p=ggplot(bl,aes(x=yr,y=Med, group=Year,color=Year))+geom_line(size=1)+
+    geom_line(aes(x=yr, y=LB),linetype=2)+geom_line(aes(x=yr, y=UB),linetype=2)+
+    facet_wrap(~Dev, ncol=1)+ylim(0,1)+scale_color_hue(l=40)+
+    labs(x='Year',y='Probability of survival',color='')+
+    theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.2,0.2),
                      legend.background=element_rect(fill="transparent"))+xlim(1970,2015)
   return(p)
 }
