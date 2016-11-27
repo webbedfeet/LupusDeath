@@ -22,6 +22,20 @@ study_info[study_info$pubID=='Joo_2015',]$end.enrollment = NA
 ## Make Siegel_1969_female the overall study record
 study_info$armID[study_info$armID=='Siegel_1969_female'] <- 'Siegel_1969'
 
+## Create an overall record for Hashimoto
+x <- study_info %>% dplyr::filter(Author=='Hashimoto') %>% 
+  summarise_all(funs(ifelse(length(unique(.))==1, unique(.), NA))) 
+bl <- study_info %>% dplyr::filter(Author=='Hashimoto')  
+x <- x %>% 
+  mutate(number = sum(bl$number),
+         female = weighted.mean(bl$female, bl$number),
+         f.up.months = weighted.mean(bl$f.up.months, bl$number),
+         max.f.up = max(bl$max.f.up, na.rm=T),
+         armID = pubID,
+         male.only = 'N',
+         fullstudy.arm='Y')
+study_info <- rbind(study_info, x) %>% arrange(pubID)
+
 ## Fix the information in the Design field
 study_info <- study_info %>% 
   mutate(Design = str_to_title(Design),
