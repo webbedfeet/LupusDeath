@@ -7,6 +7,10 @@ gen_jagsdata <- function(ipd, info=study_info){
   for(i in 1:length(ipd)){
     ipd[[i]]$pubID <- names(ipd)[i]
   }
+  info <- dplyr::filter(info, armID==pubID)
+  tst <- info %>% count(pubID)
+  if(any(tst$n > 1))stop('Need single info row per study')
+  
   data.jags <- dplyr::bind_rows(lapply(ipd, function(d) jags_transform(d, info)))
   return(as.list(data.jags))
 }
