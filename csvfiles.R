@@ -21,7 +21,7 @@ csv_km <- setdiff(csvfiles, c(csv_summaries, csv_cumhaz, csv_cummort))
 
 ids_from_filenames <- csvfiles %>% 
   str_replace( '-([0-9]{4})','_\\1') %>% 
-  str_extract('^[\\w -]+_[0-9]{4}') %>% 
+  str_extract('^[\\w -]+_[0-9]{4}[abc]?') %>% 
   str_to_title(.)
 figs_from_filenames <- csvfiles %>% 
   str_extract('[Ff]ig[0-9 ]+')
