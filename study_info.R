@@ -24,9 +24,12 @@ study_info <- study_info %>%
   mutate_if(is.character, str_trim) %>% # get rid of trailing spaces
   mutate(Author = Author %>% str_trim() %>% str_to_title() %>% 
            str_extract('^[\\w-]+'),
+         Arm = ifelse(is.na(Arm),'',Arm),
          armID = paste(Author, pubdate, Arm, sep='_') %>% 
-           str_replace('_NA','') %>% str_replace(' ','_'), # create unique ID per arm
+           str_replace('_$','') %>% str_replace(' ','_'), # create unique ID per arm
          pubID = paste(Author, pubdate, sep='_'), # create publication ID
+         pubID = ifelse(str_detect(Arm,'^[abc]$'), # separate out time-separated arms
+                        paste0(pubID,Arm), pubID),
          dis.dur.yrs = as.numeric(str_replace(dis.dur.yrs, '<', '')),
          Time0 = ifelse(inception==1,'diagnosis', Time0) %>% tolower()) %>%  # Account for inception cohorts
   nest(-pubID) %>% 
