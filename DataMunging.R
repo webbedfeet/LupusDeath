@@ -31,7 +31,8 @@ x <- x %>%
          female = weighted.mean(bl$female, bl$number),
          f.up.months = weighted.mean(bl$f.up.months, bl$number),
          max.f.up = max(bl$max.f.up, na.rm=T),
-         armID = pubID)
+         armID = pubID,
+         Arm='')
 study_info <- rbind(study_info, x) %>% arrange(pubID)
 
 ## Fix the information in the Design field
