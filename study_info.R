@@ -13,7 +13,8 @@ study_info$Author[study_info$Author=='Al Arfaj'] <- 'Al-Arfaj'
 names(study_info) <- str_trim(names(study_info))
 study_info <- study_info %>%
   dplyr::rename(surv15yr = `surv15 y`,
-         Time0 = `Time 0`)
+         Time0 = `Time 0`) %>% 
+  select(-study)
 names(study_info) <- make.names(names(study_info)) %>% 
   str_replace('\\.+$','') %>%
   str_replace_all( '\\.+','.')

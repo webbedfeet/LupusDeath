@@ -20,7 +20,11 @@ study_info[study_info$pubID=='Joo_2015',]$end.fup = 2007
 study_info[study_info$pubID=='Joo_2015',]$end.enrollment = NA
 
 
-
+## Fix the information in the Design filed
+study_info <- study_info %>% 
+  mutate(Design = str_to_title(Design),
+         Design = ifelse(str_count(Design, pattern='[[:alpha:]]+')==2, Design,
+                         paste(Design, 'Observational', sep=' ')))
 
 # New variables -----------------------------------------------------------
 
