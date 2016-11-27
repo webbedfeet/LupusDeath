@@ -10,27 +10,20 @@
 #' \itemize{
 #' \item{'Author'}{Author}
 #' \item{"pubdate"}{Publication date}
-#' \item{"starts"}{The start time of the study (i.e. beginning of enrollment)}
-#' \item{"ends"}{The end time of the study (i.e. max of end of enrollment, end of followup or a year before publication)}
+#' \item{"start_of_study"}{The start time of the study (i.e. beginning of enrollment)}
+#' \item{"end_of_study"}{The end time of the study (i.e. max of end of enrollment, end of followup or a year before publication)}
 #' \item{"yr_of_study"}{The analytic start time }
 #' \item{"yr_of_study_end"}{The analytic end time}
 #' \item{"Developed"}{Developed or developing country}
 #' \item{"number"}{Size of the study (number of participants)}
 #' \item{"Design"}{Study design (Observational or trial)}
 #' }
-stairdata <- function(dat=basedata, arm='FullStudy', group="Mixed"){
-  require(dplyr)
-  if(arm==''){
-    dat2 <- dplyr::filter(dat, Group_class %in% group)
-  } else {
-    dat2 <- dplyr::filter(dat, Arm==arm & Group_class %in% group)
-  }
-  dat2 <- dat2 %>%
-    select(study, Arm, Group_class, Author, pubdate, starts, yr_of_study, yr_of_study_end, ends, Developed, Design, number) %>%
-    mutate(Design=as.factor(ifelse(Design=='Trial', 'Trial','Observational')),
-           labels=paste(Author, pubdate, sep=',')) %>%
-    arrange(starts)
-  return(dat2)
+stairdata <- function(dat=basedata){
+  dat <- dat %>%
+    select(study,pubID, armID,Author, pubdate, start_of_study, yr_of_study, end_of_study, yr_of_study_end, Developed, Design, number) %>%
+    arrange(start_of_study) %>% 
+    distinct()
+  return(dat)
 }
 
 #' Plotting "staircase" plots that show the temporal extent of each study
@@ -45,15 +38,16 @@ stairdata <- function(dat=basedata, arm='FullStudy', group="Mixed"){
 #' @return A ggplot object
 stairplot <- function(d, title='',lims=NULL){
   require(ggplot2)
-  ggplot(d, aes(x = seq_along(yr_of_study), y=yr_of_study, ymin=starts, ymax=ends))+
+  ggplot(d, aes(x = seq_along(yr_of_study), y=yr_of_study, 
+                ymin=start_of_study, ymax=end_of_study))+
     geom_point(aes(size=sqrt(number), color=Design))+
     geom_linerange()+
     geom_linerange(aes(x=seq_along(yr_of_study), ymin=yr_of_study, ymax=yr_of_study_end), colour='green')+
     labs(x='' )+guides(size=FALSE)+
-    geom_text(aes(x=seq_along(yr_of_study),y=starts-0.5, label=labels, size=4, hjust=1))+
+    geom_text(aes(x=seq_along(yr_of_study),y=start_of_study-0.5, label=pubID, size=4, hjust=1))+
     #coord_flip()+
     theme(legend.position='bottom', axis.text.y=element_blank(), axis.ticks.y=element_blank())+
-    scale_y_continuous('Year', breaks=seq(1950,2010,by=10), limits=lims)+
+    scale_y_continuous('Year', breaks=seq(1940,2016,by=10), limits=lims)+
     coord_flip()+
     ggtitle(title)
 }
