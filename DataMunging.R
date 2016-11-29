@@ -159,4 +159,4 @@ membership <- plyr::ldply(study_years,
                                        function(y) length(intersect(x,y))>0))
 names(membership) <- str_replace(names(membership),'V','Window')
 
-save(membership, file = 'data/rda/window_membership.rda', compress=T)
+save(membership, Windows,file = 'data/rda/window_membership.rda', compress=T)
