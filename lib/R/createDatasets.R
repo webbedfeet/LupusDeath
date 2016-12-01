@@ -9,7 +9,7 @@
 #' @param members A tidy table for which study contributes to which window
 #' @param  outdir Directory to store the files
 #' @param  info Study information (including studi ID, class, developed status and left truncation info)
-#' @param  minkm=4 Minimum number of Kaplan-Meier studies to be included per window
+#' @param  minkm=5 Minimum number of Kaplan-Meier studies to be included per window
 #' @param ipd=study.ipd A list of study-specific IPD, derived from KM curves
 #' @param  followup=followup.fullstudy data.frame with followup information (max followup, events, number at risk, etc) (currently not implemented)
 createDatasets <- function(members, ipd, outdir, info=study_info, minkm=5, followup=NULL){
