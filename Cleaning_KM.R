@@ -23,7 +23,7 @@ KM_full$N[is.na(KM_full$N)] <- c(
   511, 156, # Drenkard
   221, 117, 103, 176, # Fernandez
   115, 101, # Flower
-  54, 101, 151, # Funauchi
+  # 54, 101, 151, # Funauchi
   147, 35, # Jallouli
   64, 638, 52, # Johnson
   276, 67, # Kao
@@ -33,7 +33,8 @@ KM_full$N[is.na(KM_full$N)] <- c(
   43, 116, # Schmid
   1141, 339, # Shinjo
   76, 4, # Stoll
-  142,73 # Voss
+  # 142,73 # Voss
+  48 # Uramoto A
 )
 
 # Read in the digitized data in a list
