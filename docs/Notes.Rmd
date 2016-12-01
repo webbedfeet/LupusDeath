@@ -10,9 +10,13 @@ Also, Grigor should be excluded  (same cohort as Hohmeister).
 
 ## KM's
 
-Voss is not a KM since it's x-axis is age, not years
+Voss is not a KM since it's x-axis is age, not years.
+Updated Heller digitization, since it was wrong (12/1/16)
 
 Several studies have arms in different epochs: Urman, Uramoto, Rodriguez, and Funauchi
+
+N's were off for multi-arm trials, due to Voss leaving and Funauchi being separated.
+
 ## Plots
 
 ## Digitized Plots
