@@ -11,6 +11,9 @@ study_info <- arrange(study_info, pubID) %>%
 
 study_info$max.f.up <- as.numeric(study_info$max.f.up)
 
+## Fessel is from United States
+study_info$Country[study_info$pubID=='Fessel_1974'] <- 'United States'
+
 ## Update Estes' information to start at 1961 and end at 1969
 study_info[study_info$pubID=='Estes_1971',]$start.enrollment=1961
 study_info[study_info$pubID=='Estes_1971',]$end.enrollment=1969
@@ -95,38 +98,42 @@ study_info <- study_info %>%
   mutate(Country = ifelse(Country %in% names(transform_country),
          transform_country[Country],
          Country))
-
-thresh <- read_excel('data/raw/OGHIST.xls', sheet='Thresholds', skip=5)
+download.file('http://siteresources.worldbank.org/DATASTATISTICS/Resources/OGHIST.xls', destfile = 'data/OGHIST.xls', mode='wb')
+thresh <- read_excel('data/OGHIST.xls', sheet='Thresholds', skip=5)
 thresh <- data.frame(t(thresh[c(1,18),-1]), stringsAsFactors=F)
 thresh <- thresh %>% 
   rename(Year=X1, Threshold = X2) %>% 
   mutate(Year = as.numeric(Year),
          Threshold = Threshold %>% str_trim() %>% str_replace('> ','') %>% 
            str_replace(',','') %>% as.numeric)
-incomes <- read_excel('data/raw/NY.GNP.PCAP.CD_Indicator_MetaData_en_EXCEL.xls')
-names(incomes) <- str_replace(names(incomes),' ','.')
-incomes <- gather(incomes, Year, Income, -(1:2)) %>% 
+
+library(wbstats)
+incomes <- as_tibble(wb(indicator = 'NY.GNP.PCAP.CD')) %>% 
+  select(country, date, value) %>% 
+  rename(Year = date, Income=value)
+incomes <-incomes %>% 
   mutate(Year = as.numeric(Year)) %>% 
   left_join(thresh) %>% 
   mutate(Status = ifelse(Income >= Threshold, "Developed", "Developing"))
 
 bl <- study_info %>% select(pubID,Country, yr_of_study) %>% 
-  left_join(incomes, by=c('Country'='Country.Name',
+  left_join(incomes, by=c('Country'='country',
                           'yr_of_study'='Year')) %>% 
-  mutate(Status = ifelse(is.na(Status) & yr_of_study < 1987 & Income >=6000,
-                         'Developed','Developing'),
-         Status = ifelse(Country=='United States','Developed',Status),
-         Status = ifelse(Country=='Latin America','Developing',Status),
-         Status = ifelse(Country=='Germany', 'Developed',Status),
-         Status = ifelse(Country=='Europe','Developed',Status),
-         Status = ifelse(Country=='International','Developing',Status),
-         Status = ifelse(Country=='Poland', 'Developing',Status),
-         Status = ifelse(Country=='Antilles', 'Developing', Status),
-         Status = ifelse(Country=='Russian Federation', 'Developing', Status),
-         Status = ifelse(Country=='Usa/Spain','Developed', Status),
-         Status = ifelse(Country=='New Zealand', 'Developed', Status))
+  mutate(Status = ifelse(Country=='United States', 'Developed', Status)) %>% 
+  mutate(Status = ifelse(is.na(Status) & yr_of_study < 1987 & Income >= 6000, 'Developed', Status)) %>% 
+  mutate(Status = ifelse(Country=='Latin America', 'Developing',Status)) %>% 
+  mutate(Status = ifelse(Country %in% c('Europe','Poland','Antilles','Russian Federation',  'India', 'China','Chile', 'Malaysia', 'Hungary', 'International','Barbados','Puerto Rico'), 'Developing', Status)) %>% 
+  mutate(Status = ifelse(is.na(Status), 'Developed',Status)) %>% 
+  mutate(Status = ifelse(pubID %in% c('Nossent_2010','Bruce_2015','Cervera_2003'),
+         'Developed',Status))
 
-study_info <- study_info %>% mutate(Developed = bl$Status)
+development_status <- bl
+save(development_status, file='data/rda/development_status.rda')
+
+bl2 <- bl %>% select(pubID, yr_of_study, Status) %>% distinct()
+study_info <- study_info %>% 
+  left_join(bl2) %>% 
+  rename(Developed=Status)
 
 save(study_info, file='data/rda/study_info.rda', compress=T)
 
