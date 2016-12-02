@@ -25,7 +25,8 @@ KM2IPD: KM2IPD.R data/rda/KM_digitized.rda
 membership: DataMunging.R
 	R CMD BATCH DataMunging.R
 
-data: study_info update_study_info fig_metadata KM_digitized KM2IPD
+data: study_info update_study_info 
+figdata: fig_metadata KM_digitized KM2IPD
 
 adult_data: MovingAverage.R
 	R CMD BATCH MovingAverage.R
