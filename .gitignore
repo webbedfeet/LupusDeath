@@ -33,3 +33,5 @@ background/
 NewFolder/
 *.Rout
 *.swp
+lib/functions.R
+
