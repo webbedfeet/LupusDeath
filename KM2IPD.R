@@ -16,4 +16,9 @@ for(u in KM_full$ids){
   KM2IPD[[u]] <- pool_ipd(lst)
   KM2IPD[[u]] <- lapply(KM2IPD[[u]], unname)
 }
+
+## Add McCombs data to this
+dat <- read_excel(file.path(AD_local_mac['popdata'],'McCombs data.xlsx'))
+ipd <- list('d.times' = dat$duration[dat$died==1], 'cens.times' = dat$duration[dat$died==0])
+
 save(KM2IPD, file='data/rda/KM2IPD.rda', compress=T)
