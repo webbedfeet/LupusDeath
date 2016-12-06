@@ -32,3 +32,5 @@ background/
 .Rproj.user
 NewFolder/
 *.Rout
+*.csv
+*.xlsx

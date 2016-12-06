@@ -7,20 +7,14 @@ source('preamble.R')
 
 #datadir <- AD_local_mac['popdata']
 datadir <- FH_dirs['popdata']
-study_infoPed<- read_excel(file.path(datadir,'peds_mw LL_mw.xlsx'))[1:61, 1:46]
-#study_infoPedPed$Author[study_infoPedPed$Author=='Al Arfaj'] <- 'Al-Arfaj'
-study_infoPed$Author[study_infoPed$Author=='Ramirez Gomez'] <- 'Ramirez_Gomez' 
-study_infoPed$Author[study_infoPed$Author=='Hui-Yeun'] <- 'Hui_Yeun'
-study_infoPed$Author[study_infoPed$Author=='Tavangar-Rad'] <- 'Tavangar_Rad'
-study_infoPed$Author[study_infoPed$Author=='Blancas-Galicia'] <- 'Blancas_Galicia'
-study_infoPed$Author[study_infoPed$Author=='Al-Mayouf'] <- 'Al_Mayouf'
-study_infoPed$Author[study_infoPed$Author=='das Chagas Medeiros'] <- 'das_Chagas_Medeiros' 
-study_infoPed$Author[study_infoPed$Author=='estes d'] <- 'estes_d'   
-study_infoPed$Author[study_infoPed$Author=='Reveille JD,'] <- 'Reveille_JD'
-study_infoPed$Author[study_infoPed$Author=='Wu G,'] <- 'Wu_G'
-#study_infoPed$Author[study_infoPed$Author=='Costa-Reis'] <- 'Costa_Reis'
-#study_infoPed$Author[study_infoPed$Author=='Huicochea Grobet'] <- 'Huicochea_Grobet'
-#study_infoPed$Author[study_infoPed$Author=='Lee P'] <- 'Lee_P'
+#study_infoPed<- read_excel(file.path(datadir,'peds_mw LL_mw_update.xlsx'))[1:62, 1:46]
+study_infoPed<- read_excel('\\\\niamsirph2.niams.nih.gov/HUJ10$/FranWork/LupusDeath/peds_mw LL_mw_update.xlsx')[1:62, 1:46]
+study_infoPed$Author[study_infoPed$Author=='Ramirez Gomez'] <- 'Ramirez-Gomez' 
+study_infoPed$Author[study_infoPed$Author=='das Chagas Medeiros'] <- 'das-Chagas-Medeiros' 
+study_infoPed$Author[study_infoPed$Author=='estes d'] <- 'estes-d'   
+study_infoPed$Author[study_infoPed$Author=='Reveille JD,'] <- 'Reveille-JD'
+study_infoPed$Author[study_infoPed$Author=='Wu G,'] <- 'Wu-G'
+
 
 
 
