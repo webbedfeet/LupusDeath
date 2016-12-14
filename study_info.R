@@ -6,8 +6,9 @@ source('preamble.R')
 
 datadir <- AD_local_mac['popdata']
 # datadir <- FH_dirs['popdata']
-study_info <- read_excel(file.path(datadir,'double-checked_adult_Abhijit.xlsx'))[1:187, 1:43]
+study_info <- read_excel(file.path(datadir,'double-checked_mw3.xlsx'))[1:187, 1:43]
 study_info$Author[study_info$Author=='Al Arfaj'] <- 'Al-Arfaj'
+study_info$Author[study_info$Author=='Massadro'] <- 'Massardo'
 
 ## Fix names of variables
 names(study_info) <- str_trim(names(study_info))
