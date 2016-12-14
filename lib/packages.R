@@ -1,5 +1,4 @@
-reqpackages <- c('plyr',
-                 'tidyverse',
+reqpackages <- c('tidyverse',
                  'stringr',
                  'reshape2',
                  'broom',
