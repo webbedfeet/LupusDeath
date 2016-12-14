@@ -7,7 +7,7 @@ reload()
 datadir <- AD_local_mac['data']
 
 load('data/rda/fig_metadata.rda')
-load('data/rda/study_info.rda')
+load('data/rda/final_study_info.rda')
 
 fig_metadata <- fig_metadata %>%
   mutate(male.only = ifelse(ids %in% study_info$pubID[study_info$male.only=='Y'],'Yes','No'))
@@ -34,7 +34,7 @@ KM_full$N[is.na(KM_full$N)] <- c(
   1141, 339, # Shinjo
   76, 4, # Stoll
   # 142,73 # Voss
-  48 # Uramoto A
+  197, 211# Ward
 )
 
 # Read in the digitized data in a list
