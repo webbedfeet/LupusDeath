@@ -9,6 +9,7 @@ csvfiles = dir(datadir, pattern='csv')
 csvfiles <- csvfiles[!str_detect(csvfiles,'need')]
 csvfiles <- csvfiles[!str_detect(csvfiles,'child')]
 csvfiles <- csvfiles[!str_detect(csvfiles,'cts')]
+csvfiles <- csvfiles[!str_detect(csvfiles,'ignore')]
 
 csv_summaries <- csvfiles[str_detect(csvfiles,'summ')]
 csv_cumhaz <- csvfiles[str_detect(csvfiles,'cumhaz')]

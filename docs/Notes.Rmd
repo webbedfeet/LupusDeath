@@ -8,6 +8,10 @@ output: docx
 4 studies including males only: Sthoeger 1987. Folomeev 1990, Kaufman 1989, Chang 1995.
 Also, Grigor should be excluded  (same cohort as Hohmeister).
 
+## Studies
+
++ Remove Rodriguez (2000) from study
+
 ## KM's
 
 Voss is not a KM since it's x-axis is age, not years.
@@ -19,9 +23,14 @@ N's were off for multi-arm trials, due to Voss leaving and Funauchi being separa
 
 ## Plots
 
++ Pokroy-Shapiro's plots are for renal survival. It will go into
+just follow-up data with 11.3% survival rate overall. (12/14/16)
++ Digitize Ginzler Fig1 for the study (12/14/16)
+
 ## Digitized Plots
 
 Several plots are really survival estimates and not KM plots
+
 
 ## Study duration
 
