@@ -1,5 +1,6 @@
 # This file will contain updates to various data sets that are resulting
 # from data cleaning exercises
+# Inputs will be study_info.rda and fig_metadata.rda
 
 source('study_info.R')
 load('data/rda/study_info.rda')
@@ -48,7 +49,7 @@ study_info <- study_info %>%
 
 ## Identify male only studies, which will be kept separate
 male_only <- study_info %>% filter(female==0) %>% 
-  select(pubID) %>% left_join(study_info %>% count(pubID)) %>% 
+  select(pubID) %>% left_join(study_info %>% dplyr::count(pubID)) %>% 
   filter(n==1)
 study_info <- study_info %>% 
   mutate(male.only = factor(ifelse(pubID %in% male_only$pubID, 'Y','N')))
@@ -102,7 +103,7 @@ download.file('http://siteresources.worldbank.org/DATASTATISTICS/Resources/OGHIS
 thresh <- read_excel('data/OGHIST.xls', sheet='Thresholds', skip=5)
 thresh <- data.frame(t(thresh[c(1,18),-1]), stringsAsFactors=F)
 thresh <- thresh %>% 
-  rename(Year=X1, Threshold = X2) %>% 
+  dplyr::rename(Year=X1, Threshold = X2) %>% 
   mutate(Year = as.numeric(Year),
          Threshold = Threshold %>% str_trim() %>% str_replace('> ','') %>% 
            str_replace(',','') %>% as.numeric)
@@ -110,7 +111,7 @@ thresh <- thresh %>%
 library(wbstats)
 incomes <- as_tibble(wb(indicator = 'NY.GNP.PCAP.CD')) %>% 
   select(country, date, value) %>% 
-  rename(Year = date, Income=value)
+  dplyr::rename(Year = date, Income=value)
 incomes <-incomes %>% 
   mutate(Year = as.numeric(Year)) %>% 
   left_join(thresh) %>% 
@@ -133,9 +134,18 @@ save(development_status, file='data/rda/development_status.rda')
 bl2 <- bl %>% select(pubID, yr_of_study, Status) %>% distinct()
 study_info <- study_info %>% 
   left_join(bl2) %>% 
-  rename(Developed=Status)
+  dplyr::rename(Developed=Status)
 
-save(study_info, file='data/rda/study_info.rda', compress=T)
+load('data/rda/fig_metadata.rda')
+
+study_info %>% left_join(
+  fig_metadata %>% select(ids, `from SLE`, TimeInYears) %>% 
+    distinct(),
+  by = c('pubID'='ids')
+) -> study_info
+
+study_info %>% mutate(Lag2 = ifelse(`from SLE`=='y' & !is.na(`from SLE`), 0, Lag)) -> study_info
+save(study_info, file='data/rda/final_study_info.rda', compress=T)
 
 
 # Windowing for moving average --------------------------------------------
