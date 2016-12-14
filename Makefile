@@ -6,7 +6,7 @@ DATADIR=/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/Abhijit\ SLE\ Mo
 study_info: $(DATADIR)/*.csv study_info.R
 	R CMD BATCH study_info.R
 
-update_study_info: study_info.R
+update_study_info: study_info.R csvfiles.R
 	R CMD BATCH DataMunging.R
 
 ## fig_metadata 		: Generate metadata for digitized curves
@@ -25,7 +25,7 @@ KM2IPD: KM2IPD.R data/rda/KM_digitized.rda
 membership: DataMunging.R
 	R CMD BATCH DataMunging.R
 
-data: study_info update_study_info 
+data:  study_info fig_metadata update_study_info
 figdata: fig_metadata KM_digitized KM2IPD
 
 adult_data: MovingAverage.R
