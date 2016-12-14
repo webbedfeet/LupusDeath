@@ -28,12 +28,12 @@ study_info <- study_info %>%
          Arm = ifelse(is.na(Arm),'',Arm),
          armID = paste(Author, pubdate, Arm, sep='_') %>% 
            str_replace('_$','') %>% str_replace(' ','_'), # create unique ID per arm
-         pubID = paste(Author, pubdate, sep='_'), # create publication ID
-         pubID = ifelse(str_detect(Arm,'^[abc]$'), # separate out time-separated arms
-                        paste0(pubID,Arm), pubID),
-         armID = ifelse(str_detect(Arm,'^[abc]$'),
-                        pubID, armID),
-         dis.dur.yrs = as.numeric(str_replace(dis.dur.yrs, '<', '')),
+         pubID = paste(Author, pubdate, sep='_')) %>%  # create publication ID
+         mutate(pubID = ifelse(str_detect(Arm,'^[abc]$'), # separate out time-separated arms
+                        paste0(pubID,Arm), pubID)) %>% 
+         mutate(armID = ifelse(str_detect(Arm,'^[abc]$'),
+                        pubID, armID)) %>% 
+         mutate(dis.dur.yrs = as.numeric(str_replace(dis.dur.yrs, '<', '')),
          Time0 = ifelse(inception==1,'diagnosis', Time0) %>% tolower()) %>%  # Account for inception cohorts
   nest(-pubID) %>% 
   mutate(data = map(data, ~mutate(., dis.dur.yrs = fillin(dis.dur.yrs)))) %>% 
