@@ -60,8 +60,26 @@ load('data/rda/graph_types.rda')
 ids <- c(csv_km, csv_summaries) %>% str_extract('^[\\w -]+[0-9]{4}[abc]?') %>% 
   str_replace('-([0-9]{4})','_\\1') %>% str_to_title()
 
-'%!in%' <- Negate('%in%')
-dat <- study_info %>% filter(pubID %!in% ids)
+'%notin%' <- Negate('%in%')
+
+clean_summaries <- function(d){
+  d <- rbind(tibble(Time=0, Prob=100), d) %>% 
+    mutate(Prob = Prob/100)
+  return(d)
+}
+dat <- study_info %>% filter(pubID %!in% ids) %>% 
+select(armID, pubID, starts_with('surv')) %>% 
+gather(Time, Prob, starts_with('surv')) %>% 
+mutate(Time = str_extract(Time, '[0-9]+')) %>% 
+filter(!is.na(Prob)) %>% 
+arrange(armID)
+dat <- dat[dat$pubID %!in% (study_info %>% filter(male.only=='Y') %>% select(pubID) %>% as_vector),] %>% 
+select(-armID) %>% # verified all were overalls
+nest(-pubID) %>% 
+mutate(data = map(data, ~clean_summaries(.)))
+summ_data <- as.list(dat$data); names(summ_data) <- dat$pubID
+
+
 # Weibull estimation ------------------------------------------------------
 
 
