@@ -17,6 +17,7 @@ csv_cummort <- csvfiles[str_detect(csvfiles, 'cummort')]
 
 csv_km <- setdiff(csvfiles, c(csv_summaries, csv_cumhaz, csv_cummort))
 
+save(csv_km, csv_summaries, csv_cumhaz, csv_cummort, file='data/rda/graph_types.rda')
 
 ids_from_filenames <- csvfiles %>% 
   str_replace( '-([0-9]{4})','_\\1') %>% 
@@ -63,6 +64,5 @@ png_info <- read_csv('pngfiles.csv') %>%
          years = ifelse(is.na(years),'y','n')) %>% 
   dplyr::rename(TimeInYears = years)
 fig_metadata <- left_join(fig_metadata, png_info)
-
 
 save(fig_metadata, file='data/rda/fig_metadata.rda')
