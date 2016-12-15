@@ -2,7 +2,9 @@
 #' 
 #' @param ipd The list of IPDs
 #' @param info Other data, matched on some index with the names of the IPD list, that will be included
-#'            in the JAGS dataset
+#'            in the JAGS dataset. Typically this is a data.frame of clinical characteristics of interest
+#'            including possibly average left-truncation information stored in the variable `Lag`
+#' @return A list of variables to be transformed into JAGS-compatible form
 gen_jagsdata <- function(ipd, info=study_info){
   for(i in 1:length(ipd)){
     ipd[[i]]$pubID <- names(ipd)[i]
