@@ -31,6 +31,10 @@ just follow-up data with 11.3% survival rate overall. (12/14/16)
 
 Several plots are really survival estimates and not KM plots
 
+More importantly, many plots are labeled "Time from diagnosis". These plots
+should be treated as time from diagnosis, and the lag should be 0. This was
+computed in DataMunging.R and incorporated in final_study_info.rda
+
 
 ## Study duration
 
