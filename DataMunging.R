@@ -144,7 +144,8 @@ study_info %>% left_join(
   by = c('pubID'='ids')
 ) -> study_info
 
-study_info %>% mutate(Lag2 = ifelse(`from SLE`=='y' & !is.na(`from SLE`), 0, Lag)) -> study_info
+study_info %>% mutate(Lag2 = Lag, # Old lag variable
+                      Lag = ifelse(`from SLE`=='y' & !is.na(`from SLE`), 0, Lag)) -> study_info
 save(study_info, file='data/rda/final_study_info.rda', compress=T)
 
 
