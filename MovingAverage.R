@@ -3,7 +3,7 @@
 source('lib/reload.R')
 source('preamble.R')
 reload()
-load('data/rda/study_info.rda')
+load('data/rda/final_study_info.rda')
 load('data/rda/KM2IPD.rda')
 load('data/rda/fig_metadata.rda')
 load('data/rda/window_membership.rda')
