@@ -44,37 +44,4 @@ study_info <- study_info %>%
 study_info$KM.fig[study_info$Author=='Zitnan'] <- NA # Fig is not KM curve
 save(study_info, file='data/rda/study_info.rda', compress=T)
 
-summary_survival <- study_info %>%
-  select(armID, pubID, number, Lag, starts_with('surv')) %>%
-  gather(year, surv_perc, starts_with('surv')) %>%
-  mutate(year = as.numeric(str_replace(year, 'surv([0-9]+)yr', '\\1'))) %>%
-  dplyr::filter(!is.na(surv_perc)) %>%
-  arrange(armID)
-
-pubs_with_KM <- study_info %>%
-  dplyr::filter(KM.fig!='0', !is.na(KM.fig)) %>%
-  select(pubID) %>%
-  distinct()
-
-summary_survival <- summary_survival %>%
-  dplyr::filter(!(pubID %in% pubs_with_KM$pubID)) %>% # only keep studies without KM
-  left_join(
-    study_info %>% select(armID, deaths, f.up.months)
-  ) %>% 
-  mutate(n.deaths = round(deaths * number / 100))
-
-
-save(summary_survival, file='data/rda/summary_survival.rda', compress=T)
-
-
-load('data/rda/summary_survival.rda')
-load('data/rda/study_info.rda')
-
-with_survival <- union(summary_survival$pubID, pubs_with_KM$pubID)
-without_survival <- study_info %>%
-  dplyr::filter(pubID %in% setdiff(pubID, with_survival)) %>%
-  select(armID, pubID, number, deaths, f.up.months:max.f.up)
-
-save(without_survival, file='data/rda/without_survival.rda', compress=T)
-
 
