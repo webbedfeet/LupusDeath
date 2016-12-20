@@ -4,9 +4,10 @@ source('lib/reload.R')
 source('preamble.R')
 reload()
 load('data/rda/final_study_info.rda')
-load('data/rda/KM2IPD.rda')
 load('data/rda/fig_metadata.rda')
 load('data/rda/window_membership.rda')
+load('data/rda/KM2IPD.rda')
+load('data/rda/summaries2IPD.rda')
 
 
 fullmodelcts.bugs <- "
@@ -66,4 +67,7 @@ fig_metadata <- fig_metadata %>%
   mutate(male.only = ifelse(ids %in% study_info$pubID[study_info$male.only=='Y'],'Yes','No'))
 
 ipds <- KM2IPD[setdiff(names(KM2IPD), fig_metadata$ids[fig_metadata$male.only=='Yes'])]
+ipds <- c(ipds,
+          summaries2IPD[setdiff(names(summaries2IPD), study_info$pubID[study_info$male.only=='Y'])])
+## Use study_info since summaries2IPD contains data from spreadsheet, not just graphical
 createDatasets(membership, ipds, outdir='adult')
