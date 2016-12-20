@@ -10,4 +10,7 @@ AD_local_mac <- c('data' = '/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDe
 FH_dirs <- c('data'='Papers/Abhijit SLE Mortality Library/',
              'popdata' = 'Papers')
 AD_peds_dirs <- c('data'= '/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/pediatric')
-options(dplyr.width=Inf)
+options(dplyr.width=Inf, stringsAsFactors=F)
+
+`%!in%` <- Negate(`%in%`)
+
