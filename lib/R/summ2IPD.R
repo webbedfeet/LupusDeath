@@ -1,13 +1,13 @@
 summ2IPD <- function(summData, params, n.risk, n.events,maxfollowup, lags=0){
-  set.seed(1000)
+  set.seed(1050)
   k <- params$shape
   lambda <- params$scale
-  yr <- summData$Year
+  yr <- summData$Time
   surv <- summData$Prob
   if(length(lags)>1){lags = lags$lags}
-  times = c(0,yr, maxfollowup)
-  surv = c(1,surv, NA)
-  jmps <- round(exp(diff(log(surv))),2) # Proportional jump between times (just like KM)
+  times = c(yr, maxfollowup) # Ensured in creation that data starts at (0,1)
+  surv = c(surv, NA)
+  jmps <- round(exp(diff(log(surv))),2) # Proportional jump between times (jummst like KM)
   #   ind1 <- which(jmps==1 & surv[-length(surv)]==1) # No change
   #   ind2 <- which(jmps==1 & surv[-length(surv)]!=1)
   #   if(length(ind1)>0){
@@ -42,7 +42,7 @@ summ2IPD <- function(summData, params, n.risk, n.events,maxfollowup, lags=0){
       times.cens <- c(times.cens,y)
       n <- n-length(c(x,y))
     } else {
-      if(times[i]==times[i+1]) times[i+1] <- times[i]+5
+      if(times[i]==times[i+1]) times[i+1] <- times[i]+10
       n.d <- n.events - length(times.d)
       sn.c <- n - n.d
       x = rtrunc(n.d, 'weibull',scale=lambda, shape=k, a=times[i], b=times[i+1])
