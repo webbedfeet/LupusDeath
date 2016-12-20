@@ -1,5 +1,9 @@
 
 DATADIR=/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/Abhijit\ SLE\ Mortality\ Library
+# Workflows
+data:  study_info fig_metadata update_study_info
+figdata: fig_metadata KM_digitized
+ipd: KM2IPD summ2IPD
 
 
 ## study_info		: Create data from study characteristics
@@ -29,13 +33,13 @@ summ2IPD: SummarySurvival.R
 membership: DataMunging.R
 	R CMD BATCH DataMunging.R
 
-data:  study_info fig_metadata update_study_info
-figdata: fig_metadata KM_digitized
-ipd: KM2IPD summ2IPD
-
-adult_data: MovingAverage.R
+## Creating MCMC data for adult study
+adult_data: MovingAverage.R data/rda/KM2IPD.rda data/rda/summaries2IPD.rda
 	R CMD BATCH MovingAverage.R
 	cd data/mcmc/adult; python template.py; cd ../../..
+
+
+
 
 .PHONY : clean
 clean:

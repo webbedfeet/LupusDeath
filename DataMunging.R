@@ -136,6 +136,7 @@ study_info <- study_info %>%
   left_join(bl2) %>% 
   dplyr::rename(Developed=Status)
 
+## Update lag based on figure annotation (Years since diagnosis)
 load('data/rda/fig_metadata.rda')
 
 study_info %>% left_join(
