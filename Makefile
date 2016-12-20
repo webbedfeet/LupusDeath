@@ -21,12 +21,17 @@ KM_digitized: Cleaning_KM.R data/rda/fig_metadata.rda
 KM2IPD: KM2IPD.R data/rda/KM_digitized.rda
 	R CMD BATCH KM2IPD.R
 
+## summ2IPD : Generate IPD from summary data (graphical and spreadsheet)
+summ2IPD: SummarySurvival.R 
+	R CMD BATCH SummarySurvival.R
+
 ## membership : Generate which study belongs in which moving avg window
 membership: DataMunging.R
 	R CMD BATCH DataMunging.R
 
 data:  study_info fig_metadata update_study_info
-figdata: fig_metadata KM_digitized KM2IPD
+figdata: fig_metadata KM_digitized
+ipd: KM2IPD summ2IPD
 
 adult_data: MovingAverage.R
 	R CMD BATCH MovingAverage.R
