@@ -1,7 +1,7 @@
 
 DATADIR=/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/Abhijit\ SLE\ Mortality\ Library
 # Workflows
-data:  study_info fig_metadata update_study_info
+data:  study_info fig_metadata update_study_info fup
 figdata: fig_metadata KM_digitized
 ipd: KM2IPD summ2IPD
 
@@ -26,8 +26,12 @@ KM2IPD: KM2IPD.R data/rda/KM_digitized.rda
 	R CMD BATCH KM2IPD.R
 
 ## summ2IPD : Generate IPD from summary data (graphical and spreadsheet)
-summ2IPD: SummarySurvival.R 
+summ2IPD: SummarySurvival.R
 	R CMD BATCH SummarySurvival.R
+
+## fup : Extract data for studies with only follow-up information
+fup: FollowupData.R
+	R CMD BATCH FollowupData.R
 
 ## membership : Generate which study belongs in which moving avg window
 membership: DataMunging.R
