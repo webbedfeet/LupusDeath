@@ -10,5 +10,5 @@ find_dropbox <- function(){
     }
   }
   base64coded <- readLines(dropbox_info, warn=F)[2]
-  base64(base64)
+  base64Decode(base64coded)
 }
