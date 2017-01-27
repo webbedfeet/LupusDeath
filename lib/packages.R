@@ -16,3 +16,4 @@ options(defaultPackages = c(getOption('defaultPackages'),reqpackages))
 for(pkg in reqpackages){
   eval(substitute(suppressMessages(library(x)), list(x=pkg)))
 }
+rm(pkg, reqpackages)
