@@ -20,8 +20,10 @@ datForJags <- function(ipd, follow=fup_data, info=study_info){
   dat.jags <- as.data.frame(gen_jagsdata(ipd,info))
   names(dat.jags) <- c('td','tcens','trunc','isCensored1','geog1')
   dat.jags$geog1 <- as.factor(dat.jags$geog1)
+  N1 <- nrow(dat.jags)
   dat.jags <- as.list(dat.jags)
-  dat.jags$N1 <- nrow(dat.jags)
+  dat.jags[['N1']] <- N1
+  if(nrow(follow)==0) follow <- NULL
 
 # Follow-up data
   if(!is.null(follow)){
