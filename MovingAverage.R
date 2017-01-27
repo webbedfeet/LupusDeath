@@ -8,6 +8,7 @@ load('data/rda/fig_metadata.rda')
 load('data/rda/window_membership.rda')
 load('data/rda/KM2IPD.rda')
 load('data/rda/summaries2IPD.rda')
+load('data/rda/followup_data.rda')
 
 
 fullmodelcts.bugs <- "
