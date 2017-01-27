@@ -19,7 +19,7 @@ createDatasets <- function(members, ipd, outdir, info=study_info, minkm=5, follo
   members1 <- members %>% filter(pubID %in% names(ipd))
   for(i in 1:(ncol(members1)-1)){
     print(i)
-    if(sum(members1[,i+1]) < minkm) next # need at least minkm KM curves present in window
+    if(sum(members1[,paste0('Window',i)]) < minkm) next # need at least minkm KM curves present in window
     ipd1 <- ipd[members1[,i+1]]
     followup1 <- followup %>% dplyr::filter(pubID %in% members$pubID[members[,i+1]])
     jagsdata <- datForJags(ipd1,follow=followup1,info=info)
