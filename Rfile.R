@@ -6,7 +6,7 @@ load.module('glm')
 load.module('lecuyer')
 source('fullmodel.mixed.txt')
 if(data.mixed$N2 > 0){
-  inits <- with(data.mixed, 
+  inits <- with(data.mixed,
                 list(lambda = rep(1,J),
                      nu = rep(1, J),
                      .RNG.name = "lecuyer::RngStream",
@@ -17,9 +17,9 @@ if(data.mixed$N2 > 0){
                      #                      ypred24 = 100
                 )
   )
-  
+
   parameters <- c('lambda','nu','pr5','pr10','pr15')
-  
+
   mod <- jags.model("fullmodelcts.bug",
                     data = data.mixed,
                     inits = inits,
@@ -28,7 +28,7 @@ if(data.mixed$N2 > 0){
   #update(mod, n.iter=1000) # Burn-in
   codaSamples <- coda.samples(mod, variable.names=parameters, n.iter=1000, thin=1)
 } else {
-  inits <- with(data.mixed, 
+  inits <- with(data.mixed,
                 list(#lambda = rep(1,J),
                      nu = rep(1, J),
                      .RNG.name = "lecuyer::RngStream",
@@ -39,9 +39,9 @@ if(data.mixed$N2 > 0){
                      #                      ypred24 = 100
                 )
   )
-  
+
   parameters <- c('lambda','nu','pr5','pr10','pr15')
-  
+
   mod <- jags.model("fullmodelcts2.bug",
                     data = data.mixed,
                     inits = inits,
