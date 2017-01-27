@@ -4,7 +4,8 @@ reqpackages <- c('tidyverse',
                  'broom',
                  'ggplot2',
                  'readxl',
-                 'rjags')
+                 'rjags',
+                 'wbstats')
 
 for(pkg in reqpackages){
   if(!(pkg %in% row.names(installed.packages()))){
