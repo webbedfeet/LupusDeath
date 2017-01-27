@@ -16,7 +16,7 @@ td[i] ~ dweib(nu[geog1[i]], lambda[geog1[i]])T(trunc[i],);
 }
 # Likelihood for followup data
 for(i in 1:N2){
-p[i] <- pweib(maxfollowup[i], nu[geog2[i]], lambda[geog2[i]])-pweib(lags[i],nu[geog2[i]], lambda[geog2[i]]);
+p[i] <- pweib(maxfollowup[i]+lags[i], nu[geog2[i]], lambda[geog2[i]])-pweib(lags[i],nu[geog2[i]], lambda[geog2[i]]);
 isCensored2[i] ~ dinterval(Y[i], Events[i]);
 Y[i] ~ dbinom(p[i], n[i]);
 }
