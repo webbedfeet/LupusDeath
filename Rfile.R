@@ -28,8 +28,9 @@ if(data.mixed$N2 > 0){
   #update(mod, n.iter=1000) # Burn-in
   codaSamples <- coda.samples(mod, variable.names=parameters, n.iter=1000, thin=1)
 } else {
+  data.mixed$N2 <- NULL
   inits <- with(data.mixed,
-                list(#lambda = rep(1,J),
+                list(lambda = rep(1,J),
                      nu = rep(1, J),
                      .RNG.name = "lecuyer::RngStream",
                      .RNG.seed = sample(1:10000,1),
