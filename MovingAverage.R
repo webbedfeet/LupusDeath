@@ -78,6 +78,8 @@ ipds <- c(ipds,
 ipds <- ipds[-which(names(ipds)=='Manger_2002')]
 createDatasets(membership, ipds, outdir='adult')
 
+load('data/rda/window_membership_10.rda')
+createDatasets(membership_10,ipds,outdir='adult_10')
 
 #### Why is Manger_2002 a problem. We'll look at everything in the window
 # load('data/rda/window_membership.rda')
