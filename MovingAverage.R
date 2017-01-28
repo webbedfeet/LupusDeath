@@ -81,6 +81,16 @@ createDatasets(membership, ipds, outdir='adult')
 load('data/rda/window_membership_10.rda')
 createDatasets(membership_10,ipds,outdir='adult_10')
 
+
+## Create datasets for inception cohorts only
+ids = names(ipds)
+inception_ids = filter(study_info, inception==1)$pubID
+
+ipds_inception <- ipds[intersect(ids, inception_ids)]
+membership_inception <- membership %>% filter(pubID %in% inception_ids)
+createDatasets(membership_inception, ipds_inception, outdir='inception', minkm=3,
+               followup = fup_data %>% filter(pubID %in% inception_ids))
+
 #### Why is Manger_2002 a problem. We'll look at everything in the window
 # load('data/rda/window_membership.rda')
 # win <- membership %>% select(pubID, Window39:Window50)
