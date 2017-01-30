@@ -42,7 +42,7 @@ adult_data: MovingAverage.R data/rda/KM2IPD.rda data/rda/summaries2IPD.rda
 	R CMD BATCH MovingAverage.R
 	cd data/mcmc/adult; python template.py; cd ../../..
 	cd data/mcmc/adult_10; python template.py; cd ../../..
-  cd data/mcmc/inception; python template.py; cd ../../..
+	cd data/mcmc/inception; python template.py; cd ../../..
 
 
 

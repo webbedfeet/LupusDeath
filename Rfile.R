@@ -7,11 +7,12 @@ load.module('lecuyer')
 source('fullmodel.mixed.txt')
 if(data.mixed$N2 > 0){
   inits <- with(data.mixed,
-                list(lambda = rep(1,J),
+                list(lambda = rep(100,J),
                      nu = rep(1, J),
-                     .RNG.name = "lecuyer::RngStream",
+                     # .RNG.name = "lecuyer::RngStream",
+                     .RNG.name = "base::Mersenne-Twister",
                      .RNG.seed = sample(1:10000,1),
-                     td = ifelse(isCensored1==1, 100, NA), # init for censored td
+                     td = ifelse(isCensored1==1, 1000, NA), # init for censored td
                      Y = ifelse(isCensored2==1, n, NA)# init for censored Y
                      #                      ypred14 = 100,
                      #                      ypred24 = 100
@@ -30,7 +31,7 @@ if(data.mixed$N2 > 0){
 } else {
   data.mixed$N2 <- NULL
   inits <- with(data.mixed,
-                list(lambda = rep(1,J),
+                list(lambda = rep(100,J),
                      nu = rep(1, J),
                      .RNG.name = "lecuyer::RngStream",
                      .RNG.seed = sample(1:10000,1),
