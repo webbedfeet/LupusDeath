@@ -23,6 +23,12 @@ datForJags <- function(ipd, follow=fup_data, info=study_info){
   N1 <- nrow(dat.jags)
   dat.jags <- as.list(dat.jags)
   dat.jags[['N1']] <- N1
+  if(any(dat.jags[['td']]==0)){
+    dat.jags[['td']] <- dat.jags[['td']]+0.001
+  }
+  if(any(dat.jags[['tcens']]==0)){
+    dat.jags[['tcens']] <- dat.jags[['tcens']]+0.001
+  }
   if(nrow(follow)==0) follow <- NULL
 
 # Follow-up data
