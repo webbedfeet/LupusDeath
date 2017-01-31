@@ -78,10 +78,10 @@ ipds <- c(ipds,
 
 ## Remove suspicious study which is killing JAGS, Manger_2002. This does solve problem.
 # ipds <- ipds[-which(names(ipds)=='Manger_2002')]
-createDatasets(membership, ipds, outdir='adult')
+createDatasets(membership, ipds, outdir='adult', minkm=2, info=study_info, followup=fup_data)
 
 load('data/rda/window_membership_10.rda')
-createDatasets(membership_10,ipds,outdir='adult_10')
+createDatasets(membership_10,ipds,outdir='adult_10', minkm = 2)
 
 
 ## Create datasets for inception cohorts only
@@ -90,6 +90,6 @@ inception_ids = filter(study_info, inception==1)$pubID
 
 ipds_inception <- ipds[intersect(ids, inception_ids)]
 membership_inception <- membership %>% filter(pubID %in% inception_ids)
-createDatasets(membership_inception, ipds_inception, outdir='inception', minkm=3,
+createDatasets(membership_inception, ipds_inception, outdir='inception', minkm=2,
                followup = fup_data %>% filter(pubID %in% inception_ids))
 
