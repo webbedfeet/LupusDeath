@@ -3,8 +3,10 @@ source('lib/reload.R'); reload()
 load('data/rda/final_study_info.rda')
 load('data/rda/KM_digitized.rda')
 load('data/rda/KM2IPD.rda')
+load('data/rda/summaries2IPD.rda')
 load('data/rda/window_membership.rda')
 
+ipds <- c(KM2IPD, summaries2IPD)
 members <- membership %>% filter(pubID %in% names(ipds))
 
 draw_curves <- function(n, by_id=T, by_dev = !by_id){ # n is window number in memberships
