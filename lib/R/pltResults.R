@@ -19,6 +19,6 @@ pltResults <- function(bl){
     facet_wrap(~Dev, ncol=1)+ylim(0,1)+scale_color_hue(l=40)+
     labs(x='Year',y='Probability of survival',color='')+
     theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.2,0.2),
-                     legend.background=element_rect(fill="transparent"))+xlim(1970,2015)
+                     legend.background=element_rect(fill="transparent"))
   return(p)
 }
