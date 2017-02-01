@@ -93,3 +93,6 @@ membership_inception <- membership %>% filter(pubID %in% inception_ids)
 createDatasets(membership_inception, ipds_inception, outdir='inception', minkm=2,
                followup = fup_data %>% filter(pubID %in% inception_ids))
 
+inception_ids_developed <- (study_info %>% filter(inception==1, Developed=='Developed'))$pubID
+inception_ids_developing <- (study_info %>% filter(inception == 1, Developed == 'Developing'))$pubID
+
