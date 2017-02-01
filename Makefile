@@ -1,13 +1,12 @@
 
-DATADIR=/Users/abhijit/Dropbox/Work/Ward/Studies/LupusMetaDeath/Abhijit\ SLE\ Mortality\ Library
 # Workflows
-data:  study_info fig_metadata update_study_info fup
+data:  study_info fig_metadata update_study_info
 figdata: fig_metadata KM_digitized
-ipd: KM2IPD summ2IPD
+survdat: KM2IPD summ2IPD fup
 
 
 ## study_info		: Create data from study characteristics
-study_info: $(DATADIR)/*.csv study_info.R
+study_info: 	 study_info.R
 	R CMD BATCH study_info.R
 
 update_study_info: study_info.R csvfiles.R
