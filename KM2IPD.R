@@ -1,11 +1,11 @@
 source('lib/reload.R')
-source('preamble.R')
 reload()
+source('preamble.R')
 load('data/rda/KM_digitized.rda') #loads KM_full & KM_digitized_clean
 
 KM2stratIPD <- list()
 for(u in names(KM_digitized_clean)){
-  KM2stratIPD[[u]] <- get_IPD(KM_digitized_clean[[u]], 
+  KM2stratIPD[[u]] <- get_IPD(KM_digitized_clean[[u]],
                          KM_full$N[KM_full$filename==u])
 }
 
@@ -18,7 +18,7 @@ for(u in KM_full$ids){
 }
 
 ## Add McCombs data to this
-dat <- read_excel(file.path(AD_local_mac['popdata'],'McCombs data.xlsx'))
+dat <- read_excel(file.path(popdir,'McCombs data.xlsx'))
 ipd <- list('d.times' = dat$duration[dat$died==1]/12, 'cens.times' = dat$duration[dat$died==0]/12)
 KM2IPD[['Mccombs_1959']] <- ipd
 save(KM2IPD, file='data/rda/KM2IPD.rda', compress=T)

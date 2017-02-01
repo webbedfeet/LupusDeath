@@ -1,10 +1,9 @@
 # Reading and cleaning digitized KM curves
 
 source('lib/reload.R')
+reload()
 source('preamble.R')
 library(stringr)
-reload()
-datadir <- AD_local_mac['data']
 
 load('data/rda/fig_metadata.rda')
 load('data/rda/final_study_info.rda')
