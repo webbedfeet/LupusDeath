@@ -1,8 +1,8 @@
 # Follow-up data
 
-source('preamble.R')
 source('lib/reload.R')
 reload()
+source('preamble.R')
 load('data/rda/final_study_info.rda')
 load('data/rda/KM2IPD.rda')
 load('data/rda/summaries2IPD.rda')
