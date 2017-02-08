@@ -14,5 +14,11 @@ plt <- x %>% mcmcout() %>%
   pltResults()
 print(plt+ggtitle(titles[str_replace(x, 'rda/','')]))
 }
+for (x in paste('rda',c('adult','adult_10','inception'), sep='/')){
+  plt <- x %>% mcmcout() %>%
+    collapseResults() %>%
+    pltResults(bydev=F)
+  print(plt + ggtitle(titles[str_replace(x, 'rda/','')]))
+}
 dev.off()
 

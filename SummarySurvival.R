@@ -131,6 +131,31 @@ for(u in names(summ_data)){
                meta$max.f.up)
 }
 
+## Rodriguez provides stratified summaries by renal disease. This is reported as
+## Renal disease: N=124, p5 = 0.718, p15 = 0.64
+## No renal disease: N = 538, p5 = 0.947, p15 = 0.94
+
+metadata_rodriguez <- tibble(
+  pubID = paste('Rodriguez_2000',1:2,sep='_'),
+  number = c(124,538),
+  n.death = rep(NA,2),
+  max.f.up = rep((1994-1960),2)
+)
+sData <- list(
+  tibble(Time = c(0.001,5,15), Prob = c(0.999,0.718, 0.64)),
+  tibble(Time = c(0.001,5,15), Prob = c(0.999, 0.947, 0.94))
+)
+ipd_rodriguez_strata = list()
+for(i in 1:2){
+  summData <- sData[[i]]
+  params <- as.list(weibEst(summData))
+  meta <- metadata_rodriguez[i,]
+  ipd_rodriguez_strata[[i]] <-
+    summ2IPD_2(summData, params, meta$number, meta$n.death, meta$max.f.up)
+}
+ipd_rodriguez <- pool_ipd(ipd_rodriguez_strata)
+IPD_from_spreadsheet[['Rodriguez_2000']] <- ipd_rodriguez
+
 # Pool all IPD and store --------------------------------------------------
 
 summaries2IPD <- c(IPD_from_csv, IPD_from_spreadsheet)
