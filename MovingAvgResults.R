@@ -22,4 +22,12 @@ for (x in paste('rda',c('adult','adult_10','inception'), sep='/')){
 }
 dev.off()
 
+# Compute 2008-2016 pooled results
 bl <- pooledCR(2008,2016)
+library(ReporteRs)
+output <- docx() %>%
+  addParagraph(value="Pooled estimate, 2008-2016") %>%
+  addFlexTable(FlexTable(bl)) %>%
+  writeDoc(file = 'docs/pooledEstimate.docx')
+
+
