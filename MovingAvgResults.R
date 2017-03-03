@@ -26,7 +26,7 @@ dev.off()
 bl <- pooledCR(2008,2016)
 library(ReporteRs)
 output <- docx() %>%
-  addParagraph(value="Pooled estimate, 2008-2016") %>%
+  addParagraph(value="Pooled estimate, 2008-2016 (mortality rate)") %>%
   addFlexTable(FlexTable(bl)) %>%
   writeDoc(file = 'docs/pooledEstimate.docx')
 
