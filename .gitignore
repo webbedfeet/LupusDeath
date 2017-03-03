@@ -24,9 +24,8 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 Papers/
-*.docx
+
 data/
-docs/
 graphs/
 background/
 .Rproj.user
