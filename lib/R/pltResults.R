@@ -17,15 +17,17 @@ pltResults <- function(bl, bydev = T){
   if(bydev){
   p <- ggplot(bl,aes(x=yr,y=Med, group=Year,color=Year))+geom_line(size=1)+
     geom_line(aes(x=yr, y=LB),linetype=2)+geom_line(aes(x=yr, y=UB),linetype=2)+
-    facet_wrap(~Dev, ncol=1)+ylim(0,1)+scale_color_hue(l=40)+
-    labs(x='Year',y='Probability of survival',color='')+
+    facet_wrap(~Dev, ncol=1)+ylim(0,1)+
+    scale_x_continuous('Year', breaks = seq(1960,2010,by=10))+
+    labs(y='Probability of survival',color='')+
     theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.8,0.2),
                      legend.background=element_rect(fill="transparent"))
   } else {
   p <- ggplot(bl,aes(x=yr,y=Med, group=Dev,color=Dev))+geom_line(size=1)+
     geom_line(aes(x=yr, y=LB),linetype=2)+geom_line(aes(x=yr, y=UB),linetype=2)+
-      facet_wrap(~Year, ncol=1)+ylim(0,1)+scale_color_hue(l=40)+
-      labs(x='Year',y='Probability of survival',color='')+
+      facet_wrap(~Year, ncol=1)+ylim(0,1)+
+      scale_x_continuous('Year', breaks =seq(1960,2010, by=10))+
+      labs(y='Probability of survival',color='')+
       theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.8,0.1),
                        legend.background=element_rect(fill="transparent"))
 
