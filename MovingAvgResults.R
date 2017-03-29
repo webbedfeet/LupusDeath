@@ -22,7 +22,31 @@ for (x in paste('rda',c('adult','adult_10','inception'), sep='/')){
 }
 dev.off()
 
-# Compute 2008-2016 pooled results
+
+# Updates for paper -------------------------------------------------------
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+bl <- 'rda/adult' %>% mcmcout() %>% collapseResults() %>%
+  mutate(Dev = ifelse(Dev=='Developed', 'High Income Countries','Low/Middle Income Countries'))
+pltResults(bl) + scale_color_brewer(palette = 'Set1')
+ggsave('graphs/Fig3.pdf')
+
+pltResults(bl, bydev = F) + scale_color_brewer(palette='Set1')
+ggsave('graphs/SupplFig2.pdf')
+
+bl <- 'rda/adult_10' %>% mcmcout() %>% collapseResults() %>%
+  mutate(Dev = ifelse(Dev=='Developed','High Income Countries','Low/Middle Income Countries'))
+pltResults(bl) + scale_color_brewer(palette='Set1')
+ggsave('graphs/SupplFig3.pdf')
+
+bl <- 'rda/inception' %>% mcmcout() %>% collapseResults() %>%
+  mutate(Dev = ifelse(Dev=='Developed','High Income Countries','Low/Middle Income Countries'))
+pltResults(bl) + scale_color_brewer(palette='Set1')
+ggsave('graphs/SupplFig4.pdf')
+
+
+
+# Compute 2008-2016 pooled results ------
 bl <- pooledCR(2008,2016)
 output <- bl$output %>% mutate(out = paste0(Median,' (',`LCB (0.95)`,', ',`UCB (0.95)`,')')) %>%
   select(Developed, Year, out) %>%
