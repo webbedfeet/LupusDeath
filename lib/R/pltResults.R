@@ -26,7 +26,7 @@ pltResults <- function(bl, bydev = T){
     geom_line(aes(x=yr, y=LB),linetype=2)+geom_line(aes(x=yr, y=UB),linetype=2)+
       facet_wrap(~Year, ncol=1)+ylim(0,1)+scale_color_hue(l=40)+
       labs(x='Year',y='Probability of survival',color='')+
-      theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.8,0.2),
+      theme_bw()+theme(legend.key=element_blank(), legend.position=c(0.8,0.1),
                        legend.background=element_rect(fill="transparent"))
 
   }
