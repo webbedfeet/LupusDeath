@@ -32,6 +32,8 @@ plt_developed <- info %>%
   filter(Developed=='Developed') %>%
   stairdata() %>%
   stairplot()+ggtitle('High Income Countries')
+print(plt_developed)
+ggsave('graphs/SupplFig1a.pdf')
 
 plt_developing <- info %>%
   mutate(pubID = pubID %>% str_replace('_',' (') %>% paste0(')'),
@@ -39,6 +41,10 @@ plt_developing <- info %>%
   filter(Developed=='Developing') %>%
   stairdata() %>%
   stairplot() + ggtitle('Low/Middle Income Countries')
+print(plt_developing)
+ggsave('graphs/SupplFig1b.pdf')
+
+
 pdf(file='graphs/stairplot_adult.pdf')
 print(plt)
 print(plt_developed)
